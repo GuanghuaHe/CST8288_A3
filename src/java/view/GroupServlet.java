@@ -65,7 +65,10 @@ public class GroupServlet extends HttpServlet {
         @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		processRequest(request, response);
+//		processRequest(request, response);
+                 List<Group> groups = logic.getAllGroup();
+                request.setAttribute("groups", groups);
+            request.getRequestDispatcher("/WEB-INF/groups.jsp").forward(request, response);
 	}
 
 	/**

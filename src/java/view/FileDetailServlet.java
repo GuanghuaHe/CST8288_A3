@@ -24,9 +24,10 @@ import logic.StudentLogic;
  */
 @WebServlet(name = "FileDetailServlet", urlPatterns = {"/FileDetailServlet"})
 public class FileDetailServlet extends HttpServlet {
-       
-	private FileDetailLogic fileDetailLogic = new FileDetailLogic();
-        List<FileDetail> fileDetails;
+
+    private FileDetailLogic fileDetailLogic = new FileDetailLogic();
+    List<FileDetail> fileDetails;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,18 +39,16 @@ public class FileDetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Students table</title>");            
+            out.println("<title>Students table</title>");
             out.println("</head>");
             out.println("<body>");
-            
-           
-          
+
             out.println("<table border=\"1\" cellpadding=\"3\" cellspacing=\"5\" style=\"width: 60%;margin:auto\">");
             out.println("<caption>Students</caption>");
             out.println("<tr>");
@@ -58,15 +57,14 @@ public class FileDetailServlet extends HttpServlet {
             out.println("<th>FILE TYPE</th>");
             out.println("<th>CREATE TIME</th>");
             out.println("<th>FILE SIZE</th>");
-              
-             
+
             out.println("</tr>");
             fileDetails = fileDetailLogic.getAllFileDetail();
             fileDetails.forEach((fd) -> {
                 out.printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                        fd.getFile_id(), fd.getName(),fd.getType(),fd.getDate(),fd.getSize());
+                        fd.getFile_id(), fd.getName(), fd.getType(), fd.getDate(), fd.getSize());
             });
-            
+
             out.println("</table>");
             out.println("</body>");
             out.println("</html>");
@@ -85,7 +83,11 @@ public class FileDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        fileDetails = fileDetailLogic.getAllFileDetail();
+        request.setAttribute("fileDetails", fileDetails);
+        request.getRequestDispatcher("/WEB-INF/fileDetail.jsp").forward(request, response);
+        //processRequest(request, response);
     }
 
     /**
